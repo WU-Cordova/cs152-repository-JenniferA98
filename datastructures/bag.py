@@ -6,6 +6,8 @@ class Bag(IBag[T]):
     def __init__(self, *items: Optional[Iterable[T]]) -> None:  #Need some help and the iterable initialization aspect of the bag.
         self.bag = {}
         self.bag_inventory = []
+        for item in items:
+            self.add(item)
 
 
     def add(self, item: T) -> None:
