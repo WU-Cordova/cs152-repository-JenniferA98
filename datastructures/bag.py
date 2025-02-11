@@ -1,5 +1,6 @@
 from typing import Iterable, Optional
 from datastructures.ibag import IBag, T
+import random
 
 
 class Bag(IBag[T]):
@@ -53,10 +54,7 @@ class Bag(IBag[T]):
        
 
     def __contains__(self, item) -> bool:
-        if item in self.bag_inventory:
-            return True
-        else:
-            False
+        return item in self.bag_inventory
 
     def clear(self) -> None:
         if self.bag is not None:
@@ -64,3 +62,6 @@ class Bag(IBag[T]):
             self.bag_inventory = []
         else:
             return TypeError("Bag does not exist")
+        
+    def shuffle(self) -> None:
+        random.shuffle(self.bag_inventory)

@@ -16,7 +16,7 @@ class Card:
         'Diamonds': '\u2666'
     }
 
-    def __init__(self, face, suit):
+    def __init__(self, face, suit) -> None:
         """Initializes card with a face and a suit"""
         self.face = face
         self.suit = suit
@@ -29,6 +29,7 @@ class Card:
 
 
     def __str__(self):
+        """Returns a list representation of the cards face and suit"""
         suit_symbol = self.suit_symbols.get(self.suit)
         return f"[{self.face} {suit_symbol}]"
 
