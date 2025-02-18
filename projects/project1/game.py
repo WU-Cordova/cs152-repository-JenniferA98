@@ -4,7 +4,7 @@ from project1.multideck import MultiDeck
 import random
 
 
-
+from project1 import multideck
 
 
 class BagJack():
@@ -68,13 +68,13 @@ class BagJack():
         player_total = self.__player_hand.total()
         dealer_total = self.__dealer_hand.total()
 
-        if player_total > 21:  # Player busts
+        if player_total > 21:  
             print("Player busts! Dealer wins.")
-        elif dealer_total > 21:  # Dealer busts
+        elif dealer_total > 21:  
             print("Dealer busts! Player wins.")
-        elif player_total > dealer_total:  # Player has higher total
+        elif player_total > dealer_total:  
             print("Player wins!")
-        elif dealer_total > player_total:  # Dealer has higher total
+        elif dealer_total > player_total:  
             print("Dealer wins!")
         else:
             print("It's a tie!")
@@ -84,14 +84,14 @@ class BagJack():
         """Run the game loop: deal, play player turn, play dealer turn, and determine winner"""
         self.game_start()
 
-        # Player's turn
-        if not self.player_turn():  # If the player busts, no need for the dealer to play
+
+        if not self.player_turn():  
             return
 
-        # Dealer's turn
+    
         self.dealer_turn()
 
-        # Show hands and determine winner
+        
         self.show_hands()
         self.determine_winner()
          
