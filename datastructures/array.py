@@ -64,7 +64,11 @@ class Array(IArray[T]):
         
         self._data[index] = item
 
-    def __grow(self, new_size:int) -> None:
+    def __change(self, new_size:int) -> None:
+
+        if new_size < self._logical_size:
+            new_size = self._logical_size
+
         new_data = np.empty(new_size, dtype=self._data.dtype)
 
         new_data[:self._logical_size] = self._data
@@ -79,7 +83,7 @@ class Array(IArray[T]):
         
         if self._logical_size >= self._physical_size:
             new_size = self._physical_size * 2 if self._physical_size > 0 else 1
-            self.__grow(new_size)
+            self.__change(new_size)
 
         self._data[self._logical_size] = data
         self._logical_size += 1
@@ -91,22 +95,35 @@ class Array(IArray[T]):
         
         if self._logical_size >= self._physical_size:
             new_size = self._physical_size * 2 if self._physical_size > 0 else 1
-            self.__grow(new_size)
+            self.__change(new_size)
 
         self._data[1:self._logical_size + 1] =self._data[:self._logical_size]
         self._data[0] = data
         self._logical_size += 1
 
 
-    def __shrink(self, new_size:int):
-
-
-        
     def pop(self) -> None:
+        if self._logical_size == 0:
+            raise IndexError("Array is empty.")
         
+        self._logical_size -= 1
+
+        if self._logical_size < self._physical_size //4 and self._physical_size > 1:
+            new_size = self._physical_size //2
+            self.__change(new_size)
+
     
     def pop_front(self) -> None:
-        raise NotImplementedError('Pop front not implemented.')
+        if self._logical_size == 0:
+            raise IndexError("Array is empty.")
+        
+        self._data[:self._logical_size - 1] = self._data[1:self._logical_size]
+
+        self._logical_size -= 1
+
+        if self._logical_size < self._physical_size //4 and self._physical_size > 1:
+            new_size = self._physical_size//2
+            self.__change(new_size)
 
     def __len__(self) -> int: 
 
@@ -135,14 +152,29 @@ class Array(IArray[T]):
         return iter(reversed_data)
 
     def __delitem__(self, index: int) -> None:
-        raise NotImplementedError('Delete not implemented.')
+        if index < 0:
+            index += self._logical_size
+
+        if index < 0 or index >= self._logical_size:
+            raise IndexError("Index out of bounds.")
+        
+        self._data[index:self._logical_size -1] = self._data[index +1: self._logical_size]
+
+        self._logical_size -= 1
+
+        if self._logical_size < self._physical_size // 4 and self._physical_size > 1:
+            new_size = self._physical_size // 2
+            self.__change(new_size)
+
 
     def __contains__(self, item: Any) -> bool:
         return any(x > item for x in self._data)
         
 
     def clear(self) -> None:
-        raise NotImplementedError('Clear not implemented.')
+       self._logical_size = 0
+       self._physical_size = 1
+       self._data = np.empty(1, dtype=self._data.dtype)
 
     def __str__(self) -> str:
         return '[' + ', '.join(str(item) for item in self) + ']'
