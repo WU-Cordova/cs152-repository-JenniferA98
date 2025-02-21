@@ -40,22 +40,19 @@ class Array(IArray[T]):
             if index < 0 or index >= self._logical_size:
                 raise IndexError("Index out of bounds")
             return self._data[index]
+        
         elif isinstance(index, slice):
-            if index.start is None:
-                start = 0
-            elif index.stop is None:
-                stop = self._logical_size
-            elif index.step is None:
-                step = 1
-            else:
-                start,stop, step = index.start, index.stop, index.stop
+            start = index.start if index.start is not None else 0
+            stop = index.stop if index.stop is not None else self._logical_size
+            step = index.step if index.step is not None else 1
 
-            if  start >= self._logical_size or stop > self._logical_size or ...
+            if start < 0 or stop > self._logical_size or step == 0:
                 raise IndexError("Index out of bounds")
 
             returns = self._data[start:stop:step]
-            return Array(starting_sequence = returns.tolist(), data_type = self.__data_type)
-
+            return Array(starting_sequence=returns.tolist(), data_type=self.__data_type)
+  
+  
     def __setitem__(self, index: int, item: T) -> None:
 
         if index < 0:
@@ -68,27 +65,45 @@ class Array(IArray[T]):
         self._data[index] = item
 
     def __grow(self, new_size:int) -> None:
-        return None
+        new_data = np.empty(new_size, dtype=self._data.dtype)
+
+        new_data[:self._logical_size] = self._data
+
+        self._data = new_data
+        self._physical_size = new_size
 
 
     def append(self, data: T) -> None: ##NEEDS WORK
+        if not isinstance(data, self._data.dtype.type) and self._data.size > 0:
+            raise TypeError(f"Data must be of type {self._data.dtype}")
+        
+        if self._logical_size >= self._physical_size:
+            new_size = self._physical_size * 2 if self._physical_size > 0 else 1
+            self.__grow(new_size)
+
+        self._data[self._logical_size] = data
+        self._logical_size += 1
+
+
+    def append_front(self, data: T) -> None:
         if not isinstance(data, self._data.dtype.type):
             raise TypeError(f"Data must be of type {self._data.dtype}")
         
-        self.apend_data = np.array[data]
-        self._data += data
-        self._logical_size = len(self._data) ## occupoed spance
+        if self._logical_size >= self._physical_size:
+            new_size = self._physical_size * 2 if self._physical_size > 0 else 1
+            self.__grow(new_size)
+
+        self._data[1:self._logical_size + 1] =self._data[:self._logical_size]
+        self._data[0] = data
+        self._logical_size += 1
 
 
-        self._physical_size = self._data.size ## allocated memory-- this is what i want to alter to change dynamically
+    def __shrink(self, new_size:int):
+
 
         
-
-    def append_front(self, data: T) -> None:
-        raise NotImplementedError('Append front not implemented.')
-
     def pop(self) -> None:
-        raise NotImplementedError('Pop not implemented.')
+        
     
     def pop_front(self) -> None:
         raise NotImplementedError('Pop front not implemented.')
