@@ -77,7 +77,7 @@ class Array(IArray[T]):
         self._physical_size = new_size
 
 
-    def append(self, data: T) -> None: ##NEEDS WORK
+    def append(self, data: T) -> None:
         if not isinstance(data, self._data.dtype.type) and self._data.size > 0:
             raise TypeError(f"Data must be of type {self._data.dtype}")
         
@@ -173,8 +173,8 @@ class Array(IArray[T]):
 
     def clear(self) -> None:
        self._logical_size = 0
-       self._physical_size = 1
-       self._data = np.empty(1, dtype=self._data.dtype)
+       self._physical_size = 0
+       self._data = np.empty(0, dtype=self._data.dtype)
 
     def __str__(self) -> str:
         return '[' + ', '.join(str(item) for item in self) + ']'
