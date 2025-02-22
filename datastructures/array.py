@@ -20,7 +20,11 @@ class Array(IArray[T]):
 
     def __init__(self, starting_sequence: Sequence[T]=[], data_type: type=object) -> None: 
         
+        if not isinstance(starting_sequence, Sequence):
+            raise ValueError("The starting sequence must be a sequence, like a list or tuple.")
+        
         self.starting_sequence= starting_sequence
+        self._data_type = data_type
         
         if not all(isinstance(item, data_type) for item in starting_sequence):
             raise TypeError(f"All elements must be of type {data_type}")
