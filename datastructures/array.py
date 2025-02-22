@@ -51,8 +51,10 @@ class Array(IArray[T]):
 
             returns = self._data[start:stop:step]
             return Array(starting_sequence=returns.tolist(), data_type=self.__data_type)
-  
-  
+
+        else:
+            raise TypeError("Index must be integer or slice.")
+    
     def __setitem__(self, index: int, item: T) -> None:
 
         if index < 0:
