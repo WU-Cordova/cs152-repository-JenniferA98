@@ -54,7 +54,7 @@ class Array(IArray[T]):
                 raise IndexError("Index out of bounds")
 
             returns = self._data[start:stop:step]
-            return Array(starting_sequence=returns.tolist(), data_type=self.__data_type)
+            return Array(starting_sequence=returns.tolist(), data_type=self._data_type)
 
         else:
             raise TypeError("Index must be integer or slice.")
