@@ -84,7 +84,7 @@ class Array(IArray[T]):
 
 
     def append(self, data: T) -> None:
-        if not isinstance(data, self._data.dtype.type) and self._data.size > 0:
+        if not np.issubdtype(type(data), self._data.dtype.type) and self._data.size > 0:
             raise TypeError(f"Data must be of type {self._data.dtype}")
         
         if self._logical_size >= self._physical_size:
@@ -186,7 +186,7 @@ class Array(IArray[T]):
         return '[' + ', '.join(str(item) for item in self) + ']'
     
     def __repr__(self) -> str:
-        return f'Array {self.__str__()}, Logical: {self.__item_count}, Physical: {len(self.__items)}, type: {self.__data_type}'
+        return f'Array {self.__str__()}, Logical: {self._logical_size}, Physical: {self._data.size}, type: {self._data_type}'
     
 
 if __name__ == '__main__':

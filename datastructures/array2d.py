@@ -8,7 +8,7 @@ from datastructures.iarray2d import IArray2D, T
 
 
 class Array2D(IArray2D[T]):
-    
+
 
     class Row(IArray2D.IRow[T]):
         def __init__(self, row_index: int, array: IArray, num_columns: int, data_type = type) -> None:
@@ -68,11 +68,11 @@ class Array2D(IArray2D[T]):
 
     @staticmethod
     def empty(rows: int=0, cols: int=0, data_type: type=object) -> Array2D:
-        starting_sequence = [[data_type() for _ in range(cols) for _ in range(rows)]]
+        starting_sequence = [[data_type() for _ in range(cols)]for _ in range(rows)]]
         return Array2D(starting_sequence, data_type)
 
     def __getitem__(self, row_index: int) -> Array2D.IRow[T]: 
-        return Array2D.Row[row_index, self.array2d, self.column_len, self.data_type]
+        return Array2D.Row(row_index, self.array2d, self.column_len, self.data_type)
 
     
     def __iter__(self) -> Iterator[Sequence[T]]: 
@@ -90,7 +90,7 @@ class Array2D(IArray2D[T]):
         return f'[{", ".join(f"{str(row)}" for row in self)}]'
     
     def __repr__(self) -> str: 
-        return f'Array2D {self.__num_rows} Rows x {self.__num_columns} Columns, items: {str(self)}'
+        return f'Array2D {self.column_len} Rows x {self.row_len} Columns, items: {str(self)}'
 
 
 if __name__ == '__main__':
