@@ -68,8 +68,8 @@ class Array2D(IArray2D[T]):
 
     @staticmethod
     def empty(rows: int=0, cols: int=0, data_type: type=object) -> Array2D:
-        starting_sequence = [[data_type() for _ in range(cols)]for _ in range(rows)]]
-        return Array2D(starting_sequence, data_type)
+        starting_sequence = [[data_type() for _ in range(cols)] for _ in range(rows)]
+        return Array2D(starting_sequence, data_type=data_type)
 
     def __getitem__(self, row_index: int) -> Array2D.IRow[T]: 
         return Array2D.Row(row_index, self.array2d, self.column_len, self.data_type)
