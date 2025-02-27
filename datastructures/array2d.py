@@ -70,6 +70,9 @@ class Array2D(IArray2D[T]):
                     raise ValueError("Each row in starting_sequence must be a sequence.")
                 if len(row) != first_row_len:
                     raise ValueError("All rows must have the same length.")
+                for item in row:
+                    if not isinstance(item,data_type):
+                        raise ValueError("Items in row must be of the same type.")
             self.column_len = first_row_len
 
         self.array2d = Array([data_type() for _ in range(self.row_len * self.column_len)],data_type=data_type)
