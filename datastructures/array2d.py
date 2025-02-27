@@ -19,6 +19,8 @@ class Array2D(IArray2D[T]):
             self.data_type = data_type
 
         def __getitem__(self, column_index: int) -> T:
+            if column_index < 0 or column_index >= self.num_columns:
+                raise IndexError("Column index out of bounds.")
             index = self.map_index(self.row_index, column_index)
             return self.array[index]
             
@@ -52,15 +54,23 @@ class Array2D(IArray2D[T]):
 
 
     def __init__(self, starting_sequence: Sequence[Sequence[T]]=[[]], data_type=object) -> None:
+        
         self.data_type = data_type
+        if not isinstance(starting_sequence, Sequence):
+            raise ValueError("starting_sequence must be a sequence.")
+        
         self.row_len = len(starting_sequence)
-        
-        first_row_len = len(starting_sequence[0])
-        for row in starting_sequence:
-            if len(row) != first_row_len:
-                raise ValueError("All rows must have the same length.")
-        
-        self.column_len = first_row_len 
+    
+        if self.row_len == 0:
+            self.column_len = 0
+        else:
+            first_row_len = len(starting_sequence[0])
+            for row in starting_sequence:
+                if not isinstance(row, (list, tuple)):
+                    raise ValueError("Each row in starting_sequence must be a sequence.")
+                if len(row) != first_row_len:
+                    raise ValueError("All rows must have the same length.")
+            self.column_len = first_row_len
 
         self.array2d = Array([data_type() for _ in range(self.row_len * self.column_len)],data_type=data_type)
 
@@ -78,6 +88,10 @@ class Array2D(IArray2D[T]):
         return Array2D(starting_sequence, data_type=data_type)
 
     def __getitem__(self, row_index: int) -> Array2D.IRow[T]: 
+        if row_index < 0  or row_index >= self.row_len:
+            raise IndexError("Row index out of bounds.")
+        
+    
         return Array2D.Row(row_index, self.array2d, self.column_len, self.data_type)
 
     
