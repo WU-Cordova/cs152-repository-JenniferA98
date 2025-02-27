@@ -54,7 +54,13 @@ class Array2D(IArray2D[T]):
     def __init__(self, starting_sequence: Sequence[Sequence[T]]=[[]], data_type=object) -> None:
         self.data_type = data_type
         self.row_len = len(starting_sequence)
-        self.column_len = len(starting_sequence[0])
+        
+        first_row_len = len(starting_sequence[0])
+        for row in starting_sequence:
+            if len(row) != first_row_len:
+                raise ValueError("All rows must have the same length.")
+        
+        self.column_len = first_row_len 
 
         self.array2d = Array([data_type() for _ in range(self.row_len * self.column_len)],data_type=data_type)
 

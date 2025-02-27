@@ -65,7 +65,7 @@ class Array(IArray[T]):
             index += self._logical_size
         if index < 0 or index >= self._logical_size:
             raise IndexError("Index out of bounds")
-        if not isinstance(item, self._data.dtype.type):
+        if not np.issubdtype(type(item), self._data.dtype.type):
             raise TypeError(f"Item must be of type {self._data.dtype}")
         
         self._data[index] = item
