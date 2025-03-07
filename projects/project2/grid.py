@@ -1,7 +1,10 @@
 
 import random
+import time
+from time import sleep
 from project2 import cell as Cell
 from datastructures.array2d import Array2D
+from project2.kbhit import KBHit
 
 
 

@@ -1,5 +1,9 @@
 
 from project2 import grid as Grid
+import time
+from time import sleep
+from project2.kbhit import KBHit
+
 
 
 
@@ -29,8 +33,9 @@ class GameController:
 
         self.history.append(self.grid)
 
-    def run(self, max_runs:int):
+    def run(self, mode: str = 'A', max_runs:int = 100):
         generation = 0
+        kb = KBHit
 
         while generation < max_runs:
             print(f"Generation {generation}")
@@ -42,11 +47,31 @@ class GameController:
 
             self.store_current_grid()
 
-            self.grid.Grid.next_state()
+            if mode == 'M':  
+                print("Press 'S' to step or 'A' to switch to Automatic mode or 'Q' to quit.")
+                while True:
+                    if kb.kbhit():
+                        key = kb.getch()
+                        if key.lower() == 's':  
+                            self.grid.next_state()
+                            break
+                        elif key.lower() == 'a':  
+                            print("Switched to Automatic Mode.")
+                            self.run(mode='A', max_runs=max_runs)
+                            return 
+                        elif key.lower() == 'q':  
+                            print("Game Over.")
+                            return
+                        else:
+                            continue
 
+            # In Automatic Mode, advance automatically every second
+            elif mode == 'A':  # Automatic mode
+                self.grid.next_state()
+                sleep(1)  # Pause for 1 second between generations
             generation += 1
 
-            if generation == max_runs:
-                print(f"Game stopped aften reaching the maximum run limit of {max_runs}")
+        if generation == max_runs:
+            print(f"Game stopped after reaching the maximum run limit of {max_runs} iterations.")
 
 
