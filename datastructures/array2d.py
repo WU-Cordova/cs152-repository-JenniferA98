@@ -113,7 +113,20 @@ class Array2D(IArray2D[T]):
     def __repr__(self) -> str: 
         return f'Array2D {self.column_len} Rows x {self.row_len} Columns, items: {str(self)}'
 
-
+    def __eq__(self, other:object) -> bool:
+        if not isinstance(other, Array2D):
+            return False
+        
+        if self.row_len != other.row_len or self.column_len != other.column_len:
+            return False
+        
+        for row_index in range(self.row_len):
+            for col_index in range(self.column_len):
+                if self[row_index][col_index] != other[row_index][col_index]:
+                    return False
+                
+        return True
+ 
 if __name__ == '__main__':
     filename = os.path.basename(__file__)
     print(f'This is the {filename} file.\nDid you mean to run your tests or program.py file?\nFor tests, run them from the Test Explorer on the left.')

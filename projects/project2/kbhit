@@ -1,0 +1,23 @@
+
+
+class KBHit():
+
+
+
+
+
+
+
+
+
+
+
+#Test
+
+if __name__ == "__main__":
+
+    kb= KBHit()
+
+    print("instructions")
+
+    iteration = 0

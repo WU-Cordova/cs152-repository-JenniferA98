@@ -172,4 +172,12 @@ class IArray2D(Generic[T], ABC):
         Returns:
             str: A string representation of the two-dimensional array.
         """
+
+    @abstractmethod
+    def __eq__(self, other:object) -> bool:
+        """ Returns a boolean of wether the two-dimensional array is the equal to the object passed in for comparison.
+        
+        Returns:
+            bool: True or False
+        """
         ...
