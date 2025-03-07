@@ -2,7 +2,7 @@
 import random
 import time
 from time import sleep
-from project2 import cell as Cell
+from project2.cell import Cell
 from datastructures.array2d import Array2D
 from project2.kbhit import KBHit
 
@@ -10,7 +10,7 @@ from project2.kbhit import KBHit
 
 
 class Grid():
-    
+    "Initializes the first instance of the grid"
     def __init__(self, height:int, width:int):
         self.height = height
         self.width = width
@@ -26,6 +26,7 @@ class Grid():
         return self.cells[row]
     
     def get_neighbors(self, row:int, col:int):
+        "Returns the number of neighbors of a given cell"
         neighbors = []
 
         for i in range(row - 1, row + 2):
@@ -36,7 +37,7 @@ class Grid():
         return neighbors
     
     def next_state(self):
-
+        """Creates the next generation based on Conway's Game of life rules that are implemented in the cell class"""
         new_cells = Array2D.empty(self.height, self.width)
 
         for row in range(self.height):
