@@ -14,17 +14,15 @@ class ArrayStack(IStack[T]):
                 max_size: int -- The maximum size of the stack. 
                 data_type: type -- The data type of the stack.       
         '''
-        if max_size <= 0:
-            raise ValueError("Max size must be greater than 0.")
         self.max_size = max_size
         self.data_type = data_type
         self._top  = 0
-        self.stack = Array([None]* max_size, data_type)
+        self.stack = Array([data_type()]* max_size, data_type)
 
     def push(self, item: T) -> None:
         "Add item on top"
         if self.full:
-            raise OverflowError("Stack if full.")
+            raise IndexError("Stack if full.")
         self.stack[self._top] = item
         self._top += 1
 
@@ -37,7 +35,7 @@ class ArrayStack(IStack[T]):
 
     def clear(self) -> None:
        "Clears stack"
-       self.stack = Array([None] * self.max_size, self.data_type)
+       self.stack = Array([self.data_type()] * self.max_size, self.data_type)
        self._top = 0
     @property
     def peek(self) -> T:
