@@ -5,7 +5,7 @@ from project2.gamecontroller import GameController
 def main():
 
     print("Welcome to the Game of Life Simulation!")
-    grid = Grid(height=5, width=5)
+    grid = Grid(height=10, width=10)
     game_controller = GameController(grid)
 
     while True:
