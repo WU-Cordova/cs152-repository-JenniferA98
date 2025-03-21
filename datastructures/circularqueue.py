@@ -23,6 +23,7 @@ class CircularQueue(IQueue[T]):
         self.circularqueue = Array([data_type()]* maxsize, data_type )
         self._front = 0
         self._rear = 0
+        self._size = 0 
         
 
 
@@ -55,6 +56,8 @@ class CircularQueue(IQueue[T]):
             raise IndexError("Queue is full.")
         self.circularqueue[self._rear] = item
         self._rear = (self._rear + 1) % self._maxsize
+        self._size += 1
+    
         
             
 
@@ -87,6 +90,7 @@ class CircularQueue(IQueue[T]):
             raise IndexError ("Queue is empty")
         item = self.circularqueue[self._front]
         self._front = (self._front + 1) % self._maxsize
+        self._size -= 1
         return item
 
 
@@ -118,7 +122,7 @@ class CircularQueue(IQueue[T]):
             Returns:
                 True if the queue is full, False otherwise
         '''
-        return (self._rear + 1) % self._maxsize == self._front
+        return self._size == self._maxsize
 
     @property
     def empty(self) -> bool:
@@ -154,14 +158,15 @@ class CircularQueue(IQueue[T]):
         '''
         if not isinstance(other, CircularQueue):
             return False
-        if self.maxsize != other.maxsize:
+        if self._front != other._front or self._rear != other._rear:
             return False
-        if len(self) != len(other):
-            return False
+        self_elements = []
+        other_elements = []
         for i in range(len(self)):
-            if self.circularqueue[(self._front + i) % self._maxsize] != other.circularqueue[(other._front + i) % other._maxsize]:
-                return False
-        return True
+            self_elements.append(self.circularqueue[(self._front + i) % self._maxsize])
+            other_elements.append(other.circularqueue[(other._front + i) % other._maxsize])
+    
+        return sorted(self_elements) == sorted(other_elements)
 
     
     def __len__(self) -> int:
@@ -170,10 +175,7 @@ class CircularQueue(IQueue[T]):
             Returns:
                 The number of items in the queue
         '''
-        if self._rear >= self._front:
-            return self._rear - self._front
-        else:
-            return self._maxsize - self._front + self._rear
+        return self._size
 
     def __str__(self) -> str:
         ''' Returns a string representation of the CircularQueue
