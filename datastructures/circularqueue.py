@@ -158,14 +158,13 @@ class CircularQueue(IQueue[T]):
         '''
         if not isinstance(other, CircularQueue):
             return False
-        if self._front != other._front or self._rear != other._rear:
+
+        if self.__len__() != len(other):
             return False
-        self_elements = []
-        other_elements = []
-        for i in range(len(self)):
-            self_elements.append(self.circularqueue[(self._front + i) % self._maxsize])
-            other_elements.append(other.circularqueue[(other._front + i) % other._maxsize])
-    
+
+        self_elements = [self.circularqueue[(self._front + i) % self._maxsize] for i in range(self.__len__())]
+        other_elements = [other.circularqueue[(other._front + i) % other._maxsize] for i in range(len(other))]
+
         return sorted(self_elements) == sorted(other_elements)
 
     
