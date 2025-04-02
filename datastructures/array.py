@@ -161,7 +161,7 @@ class Array(IArray[T]):
         if index < 0:
             index += self._logical_size
 
-        if index < 0 or index >= self._logical_size:
+        if index < 0 or index >= self._physical_size:
             raise IndexError("Index out of bounds.")
         
         self._data[index:self._logical_size -1] = self._data[index +1: self._logical_size]

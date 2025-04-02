@@ -158,6 +158,7 @@ class CircularQueue(IQueue[T]):
         '''
         if not isinstance(other, CircularQueue):
             return False
+    
 
         if self.__len__() != len(other):
             return False
