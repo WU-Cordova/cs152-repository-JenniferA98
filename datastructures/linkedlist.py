@@ -104,24 +104,28 @@ class LinkedList(ILinkedList[T]):
 
     def remove(self, item: T) -> None:
         if not isinstance(item, self._data_type):
-            raise TypeError("Item must be of type {}".format(self._data_type))
+            raise TypeError("Item must be of type {self.data_type.__name__}")
 
         current = self._head
-        while current:
+        while current is not None:
             if current.data == item:
-                if current.previous:
-                    current.previous.next = current.next
-                else:
+                if current.previous is None:
                     self._head = current.next
-
-                if current.next:
-                    current.next.previous = current.previous
+                    if self._head is not None:
+                        self._head.previous = None
                 else:
+                    current.previous.next = current.next
+
+                if current.next is None:
                     self._tail = current.previous
 
-                self.size -= 1
+                    if self._tail is not None:
+                        self._tail.next = None
+                else:
+                    current.next.prev = current.prev
                 return
             current = current.next
+
         raise ValueError(f"{item} not found in the list")
 
     def remove_all(self, item: T) -> None:
