@@ -5,8 +5,7 @@ import os
 from typing import Optional, Sequence
 from datastructures.ilinkedlist import ILinkedList, T
 
-
-class LinkedList[T](ILinkedList[T]):
+class LinkedList(ILinkedList[T]):
 
     @dataclass
     class Node:
@@ -34,6 +33,7 @@ class LinkedList[T](ILinkedList[T]):
         return new_list
 
     def append(self, item: T) -> None:
+        """Appends items of same type to the end."""
         if not isinstance(item, self._data_type):
             raise TypeError("Data type must be of type {self.data_type}.")
         
@@ -50,6 +50,7 @@ class LinkedList[T](ILinkedList[T]):
         self.size += 1
 
     def prepend(self, item: T) -> None:
+        """Appends items of the same type to the front."""
         if not isinstance(item, self._data_type):
             raise TypeError("Data type must be of type {self.data_type}.")
         
@@ -66,32 +67,127 @@ class LinkedList[T](ILinkedList[T]):
         self.size += 1
 
     def insert_before(self, target: T, item: T) -> None:
-        raise NotImplementedError("LinkedList.insert_before is not implemented")
+        if not isinstance(item, self._data_type) or not isinstance(target, self._data_type):
+            raise TypeError("Both item and target must be of type {}".format(self._data_type))
+
+        current = self._head
+        while current:
+            if current.data == target:
+                new_node = LinkedList.Node(item, next=current, previous=current.previous)
+                if current.previous:
+                    current.previous.next = new_node
+                else:
+                    self._head = new_node
+                current.previous = new_node
+                self.size += 1
+                return
+            current = current.next
+        raise ValueError(f"{target} not found in the list")
 
     def insert_after(self, target: T, item: T) -> None:
-        raise NotImplementedError("LinkedList.insert_after is not implemented")
+        if not isinstance(item, self._data_type) or not isinstance(target, self._data_type):
+            raise TypeError("Both item and target must be of type {}".format(self._data_type))
+
+        current = self._head
+        while current:
+            if current.data == target:
+                new_node = LinkedList.Node(item, next=current.next, previous=current)
+                if current.next:
+                    current.next.previous = new_node
+                else:
+                    self._tail = new_node
+                current.next = new_node
+                self.size += 1
+                return
+            current = current.next
+        raise ValueError(f"{target} not found in the list")
 
     def remove(self, item: T) -> None:
-        raise NotImplementedError("LinkedList.remove is not implemented")
+        if not isinstance(item, self._data_type):
+            raise TypeError("Item must be of type {}".format(self._data_type))
+
+        current = self._head
+        while current:
+            if current.data == item:
+                if current.previous:
+                    current.previous.next = current.next
+                else:
+                    self._head = current.next
+
+                if current.next:
+                    current.next.previous = current.previous
+                else:
+                    self._tail = current.previous
+
+                self.size -= 1
+                return
+            current = current.next
+        raise ValueError(f"{item} not found in the list")
 
     def remove_all(self, item: T) -> None:
-        raise NotImplementedError("LinkedList.remove_all is not implemented")
+        if not isinstance(item, self._data_type):
+            raise TypeError("Item must be of type {}".format(self._data_type))
+
+        current = self._head
+        found = False
+        while current:
+            next_node = current.next
+            if current.data == item:
+                found = True
+                if current.previous:
+                    current.previous.next = current.next
+                else:
+                    self._head = current.next
+
+                if current.next:
+                    current.next.previous = current.previous
+                else:
+                    self._tail = current.previous
+
+                self.size -= 1
+            current = next_node
+
+        if not found:
+            raise ValueError(f"{item} not found in list.")
 
     def pop(self) -> T:
-        raise NotImplementedError("LinkedList.pop is not implemented")
+        if self._tail is None:
+            raise IndexError("List is empty.")
+        data = self._tail.data
+        if self._tail.previous:
+            self._tail = self._tail.previous
+            self._tail.next = None
+        else:
+            self._head = self._tail = None
+
+        self.size -= 1
+        return data
 
     def pop_front(self) -> T:
-        raise NotImplementedError("LinkedList.pop_front is not implemented")
+        if self._head is None:
+            raise IndexError("Pop from empty list")
+
+        data = self._head.data
+        if self._head.next:
+            self._head = self._head.next
+            self._head.previous = None
+        else:
+            self._head = self._tail = None
+
+        self.size -= 1
+        return data
 
     @property
     def front(self) -> T:
-        raise NotImplementedError("LinkedList.front is not implemented")
+        if self._head is None:
+            raise IndexError("List is empty.")
+        return self._head.data
 
     @property
     def back(self) -> T:
         if self._tail is None:
             raise IndexError("List is empty")
-        return self._tail
+        return self._tail.data
 
     @property
     def empty(self) -> bool:
@@ -101,26 +197,59 @@ class LinkedList[T](ILinkedList[T]):
         return self.size
 
     def clear(self) -> None:
-        for 
+        self._head = None
+        self._tail = None
+        self.size = 0
+        self._iterator_node = None
 
     def __contains__(self, item: T) -> bool:
-        raise NotImplementedError("LinkedList.__contains__ is not implemented")
+        current = self._head
+        while current:
+            if current.data == item:
+                return True
+            current = current.next
+        return False
 
     def __iter__(self) -> ILinkedList[T]:
-        raise NotImplementedError("LinkedList.__iter__ is not implemented")
+        self._iterator_node = self._head
+        return self
 
     def __next__(self) -> T:
-        raise NotImplementedError("LinkedList.__next__ is not implemented")
+        if self._iterator_node is None:
+            quit
+        data = self._iterator_node.data
+        self._iterator_node = self._iterator_node.next
+        return data
     
     def __reversed__(self) -> ILinkedList[T]:
-        raise NotImplementedError("LinkedList.__reversed__ is not implemented")
+        reversed_list = LinkedList(self._data_type)
+        current = self._tail
+        while current:
+            reversed_list.append(current.data)
+            current = current.previous
+        return reversed_list
     
     def __eq__(self, other: object) -> bool:
-        raise NotImplementedError("LinkedList.__eq__ is not implemented")
+        if not isinstance(other, LinkedList):
+            return False
+        if self.size != other.size:
+            return False
+
+        node_self = self._head
+        node_other = other._head
+
+        while node_self and node_other:
+            if node_self.data != node_other.data:
+                return False
+            node_self = node_self.next
+            node_other = node_other.next
+
+        return node_self is None and node_other is None
+
 
     def __str__(self) -> str:
         items = []
-        current = self.head
+        current = self._head
         while current:
             items.append(repr(current.data))
             current = current.next
@@ -128,7 +257,7 @@ class LinkedList[T](ILinkedList[T]):
 
     def __repr__(self) -> str:
         items = []
-        current = self.head
+        current = self._head
         while current:
             items.append(repr(current.data))
             current = current.next
