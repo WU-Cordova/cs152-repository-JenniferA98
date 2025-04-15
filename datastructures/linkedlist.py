@@ -109,19 +109,19 @@ class LinkedList(ILinkedList[T]):
         current = self._head
         while current is not None:
             if current.data == item:
-                if current.previous is None:
-                    self._head = current.next
-                    if self._head is not None:
-                        self._head.previous = None
-                else:
-                    current.previous.next = current.next
-
-                if current.next is None:
+                if current.previous is None and current.next is None:
+                    self._head = None
+                    self._tail = None
+                elif current.previous is None:
+                        self._head = current.next
+                        if self._head:
+                            self._head.previous = None
+                elif current.next is None:
                     self._tail = current.previous
-
-                    if self._tail is not None:
+                    if self._tail:
                         self._tail.next = None
                 else:
+                    current.previous.next = current.next
                     current.next.previous = current.previous
                 return
             current = current.next
