@@ -122,7 +122,7 @@ class LinkedList(ILinkedList[T]):
                     if self._tail is not None:
                         self._tail.next = None
                 else:
-                    current.next.prev = current.prev
+                    current.next.previous = current.previous
                 return
             current = current.next
 
