@@ -104,7 +104,7 @@ class LinkedList(ILinkedList[T]):
 
     def remove(self, item: T) -> None:
         if not isinstance(item, self._data_type):
-            raise TypeError("Item must be of type {self.data_type.__name__}")
+            raise TypeError(f"Item must be of type {self._data_type.__name__}")
 
         current = self._head
         while current is not None:
@@ -125,6 +125,7 @@ class LinkedList(ILinkedList[T]):
                     current.next.previous = current.previous
                 return
             current = current.next
+            self.size -= 1
 
         raise ValueError(f"{item} not found in the list")
 
@@ -220,7 +221,7 @@ class LinkedList(ILinkedList[T]):
 
     def __next__(self) -> T:
         if self._iterator_node is None:
-            quit
+            raise StopIteration
         data = self._iterator_node.data
         self._iterator_node = self._iterator_node.next
         return data
