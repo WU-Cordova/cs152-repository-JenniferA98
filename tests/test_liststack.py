@@ -1,4 +1,4 @@
-import pytest
+ import pytest
 from datastructures.liststack import ListStack
 
 class TestListStack:
