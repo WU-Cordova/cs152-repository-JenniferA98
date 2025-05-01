@@ -1,11 +1,11 @@
 import os
 from datastructures.iqueue import IQueue
 from datastructures.linkedlist import LinkedList
-from typing import TypeVar
+from typing import TypeVar , T
 
 T = TypeVar('T')
 
-class Deque[T](IQueue[T]):
+class Deque(IQueue[T]):
     """
     A double-ended queue (deque) implementation.
     """
