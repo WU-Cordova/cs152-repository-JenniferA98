@@ -2,8 +2,8 @@ from datastructures.array import Array
 from datastructures.istack import IStack
 from datastructures.arraystack import ArrayStack
 
-from project3.order_item import OrderItem
-from project3.drink import Drink
+from projects.project3.order_item import OrderItem
+from projects.project3.drink import Drink
 
 class CustomerOrder:
     def __init__(self, customer_name: str, max_stack_size: int = 10):

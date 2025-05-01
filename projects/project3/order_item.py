@@ -1,5 +1,5 @@
-from project3.menu import Menu
-from project3.drink import Drink
+from projects.project3.menu import Menu
+from projects.project3.drink import Drink
 
 
 

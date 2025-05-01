@@ -1,5 +1,5 @@
 from datastructures.array2d import Array2D
-from project3.drink import Drink
+from projects.project3.drink import Drink
 
 
 class Menu:

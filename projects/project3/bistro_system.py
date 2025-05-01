@@ -2,10 +2,10 @@
 from datastructures.deque import Deque
 from datastructures.hashmap import HashMap
 
-from project3.menu import Menu
-from project3.drink import Drink
-from project3.order_item import OrderItem
-from project3.customer_order import CustomerOrder
+from projects.project3.menu import Menu
+from projects.project3.drink import Drink
+from projects.project3.order_item import OrderItem
+from projects.project3.customer_order import CustomerOrder
 
 
 class BistroSystem:
