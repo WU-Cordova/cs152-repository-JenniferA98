@@ -42,5 +42,7 @@ Follow the on-screen prompts for directory selection and then each item has its 
 BUGS AND LIMITATIONS:
 Stacks sizes are predifined so as the operation scale increases this will be an issue. Input validation is minimal at this point, specifically in terms of customizaton, customizations do not have an price associations which is not the common practice.
 
+Bugs- Doesn't allow/prompt for customization. Error messages in drink selection are not populated but if drink is invalid it will not add to order. 
+
 FUTURE WORK:
 I think having adding expecited time of order completion would be a nice feature to have overall, both in terms of employees pacing themselves adn managers understanding how the business is functioning. 
