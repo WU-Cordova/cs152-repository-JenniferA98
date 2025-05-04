@@ -176,7 +176,8 @@ class Deque(IQueue[T]):
         return f"Deque({repr(self._deque)})"
     
     def __iter__(self):
-        return iter(self._deque)
+        for item in self._deque:
+            yield item
 
 
 if __name__ == '__main__':
