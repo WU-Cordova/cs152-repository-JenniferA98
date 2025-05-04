@@ -30,7 +30,7 @@ class Drink:
         return Drink.base_prices[self.size] + Drink.kinds[self.kind]
     
     def __str__(self):
-        return f"{self.size.title()} [{self.kind.title()} - ${self.get_price():.2f}]"
+        return f"{self.size} [{self.kind} - ${self.get_price():.2f}]"
 
 
     

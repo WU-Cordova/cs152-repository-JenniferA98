@@ -27,7 +27,7 @@ class CustomerOrder:
 
     def total_price(self):
         """Calculates the total price of the items in the order stack"""
-        return sum(Drink.get_price() for i in self.items)
+        return sum(item.drink.get_price() for item in self.items)
 
     def __str__(self):
         """Returns a string representation of the order, including customer name, items, and total price"""
