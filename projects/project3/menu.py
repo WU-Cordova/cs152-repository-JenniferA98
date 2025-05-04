@@ -1,4 +1,5 @@
 from datastructures.array2d import Array2D
+from datastructures.iarray2d import IArray2D
 from projects.project3.drink import Drink
 
 
@@ -11,7 +12,7 @@ class Menu:
         self.rows = len(kinds)
         self.cols = len(sizes)
 
-        self.menu = Array2D.empty(len(kinds), len(sizes), data_type= Drink)
+        self.menu = Array2D.empty(len(kinds), len(sizes), data_type= object)
 
         for r, kind in enumerate(kinds):
             for c, size in enumerate(sizes):

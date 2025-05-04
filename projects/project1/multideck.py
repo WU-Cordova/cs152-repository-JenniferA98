@@ -7,10 +7,10 @@ from project1.card import Card
 class MultiDeck():
     """Handles the storing of multideck for bag jack game"""
 
-    def ___init__(self, num_decks:int) -> None:
+    def __init__(self, num_decks:int) -> None:
         self.num_decks = num_decks
         self.bag = Bag()
-        self.init_deck()
+        self._init_deck()
 
     def _init_deck(self):
         """Initialize bag w/ cards for multiple decks"""

@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import os
-from typing import Optional, Sequence
+from typing import Optional, Sequence, TypeVar, Generic
 from datastructures.ilinkedlist import ILinkedList, T
+
+T = TypeVar("T")
 
 class LinkedList(ILinkedList[T]):
 

@@ -48,7 +48,7 @@ class HashMap(IHashMap[KT, VT]):
     
 
     def keys(self) -> Iterator[KT]:
-        for k, in self.items():
+        for k, _ in self.items():
             yield k
 
     def _get_bucket_index(self, key:KT) -> int:
@@ -70,7 +70,7 @@ class HashMap(IHashMap[KT, VT]):
         for item in bucket:
             if item[0] == key:
                 bucket.remove(item)
-                self._count -=2
+                self._count -= 1 
                 return
             
         raise KeyError(f"Key {key} not found.")

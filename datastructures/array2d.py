@@ -127,6 +127,21 @@ class Array2D(IArray2D[T]):
                 
         return True
  
+
+    def set_border(self, value):
+        """Time complexity = (col_len+ row_len)"""
+        if self.row_len == 0 or self.column_len == 0:
+            return
+        for col in range(self.column_len):
+            self[0][col] = value
+            if self.row_len > 1:
+                self[self.row_len - 1][col]= value
+        
+        for row in range(1, self.row_len-1):
+            self[row][0] = value
+            if self.column_len > 1:
+                self[row][self.column_len - 1]= value
+
 if __name__ == '__main__':
     filename = os.path.basename(__file__)
     print(f'This is the {filename} file.\nDid you mean to run your tests or program.py file?\nFor tests, run them from the Test Explorer on the left.')
