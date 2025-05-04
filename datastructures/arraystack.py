@@ -86,6 +86,11 @@ class ArrayStack(IStack[T]):
     def __repr__(self) -> str:
         return f"ArrayStack({self.maxsize}): items: {str(self)}"
     
+    def __iter__(self):
+        for i in range(self._top):
+            yield self.stack[i]
+
+    
 if __name__ == '__main__':
     filename = os.path.basename(__file__)
     print(f'OOPS!\nThis is the {filename} file.\nDid you mean to run your tests or program.py file?\nFor tests, run them from the Test Explorer on the left.')
