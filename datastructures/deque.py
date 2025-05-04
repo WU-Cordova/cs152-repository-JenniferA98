@@ -174,6 +174,10 @@ class Deque(IQueue[T]):
             - str: A detailed string representation of the deque.
         """
         return f"Deque({repr(self._deque)})"
+    
+    def __iter__(self):
+        return iter(self._deque)
+
 
 if __name__ == '__main__':
     filename = os.path.basename(__file__)

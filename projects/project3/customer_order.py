@@ -6,10 +6,10 @@ from projects.project3.order_item import OrderItem
 from projects.project3.drink import Drink
 
 class CustomerOrder:
-    def __init__(self, customer_name: str, max_stack_size: int = 10):
+    def __init__(self, customer_name: str, max_size: int = 10, ):
         """Constructor initializes customer order with a stack to hold order items"""
         self.customer_name = customer_name
-        self.items = ArrayStack(max_size=max_stack_size, data_type=OrderItem)
+        self.items = ArrayStack(max_size=max_size, data_type= object)
 
     def add_item(self, item: OrderItem):
         """Adds an order item (drink) to the stack"""
